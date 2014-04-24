@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/motion_bg"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:textColor="#ffffff"
+        android:text="Back in May 2013, everyone has discovered the beautiful action bar effect in the Play Music app (explained by Cyril Mottier , Pushing the ActionBar to the Next Level). This effect is really a great way to make the ActionBar a reactive part of the UI.Yesterday, I discovered the new Newsstand app which introduced a new way to push the ActionBar to the next level. If you open the edition screen, you’ll notice the ActionBar is transparent (without icon) and overlaps a large images set (overlaped by the big magazine icon) describing some news. Once you start scrolling down, the big magazine icon is translated and scaled to match the ActionBar icon.Back in May 2013, everyone has discovered the beautiful action bar effect in the Play Music app (explained by Cyril Mottier , Pushing the ActionBar to the Next Level). This effect is really a great way to make the ActionBar a reactive part of the UI.
+
+Yesterday, I discovered the new Newsstand app which introduced a new way to push the ActionBar to the next level.
+\nIf you open the edition screen, \nyou’ll notice the ActionBar is transparent (without icon) and overlaps a large images set (overlaped by the big magazine icon) describing some news. Once you start scrolling down, the big magazine icon is translated and scaled to match the ActionBar icon."/>
+
+</FrameLayout>
