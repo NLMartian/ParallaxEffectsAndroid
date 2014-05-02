@@ -18,8 +18,14 @@ import android.widget.ImageView;
  * Created by ctrip on 14-4-24.
  */
 public class MotionEffectBackground extends FrameLayout implements SensorEventListener {
+
+    private SensorManager mSensorManager;
     private final Handler mHandler;
     private ImageView mImageView;
+
+    private float mMaxOffset = 45;
+    private float mMovedOffsetX;
+    private float mMovedOffsetY;
 
     public MotionEffectBackground(Context context) {
         this(context, null);
@@ -42,6 +48,7 @@ public class MotionEffectBackground extends FrameLayout implements SensorEventLi
 
     @Override
     protected void onDetachedFromWindow() {
+        mSensorManager.unregisterListener(this);
         super.onDetachedFromWindow();
     }
 
@@ -52,10 +59,12 @@ public class MotionEffectBackground extends FrameLayout implements SensorEventLi
         mImageView = (ImageView) view.findViewById(R.id.image);
     }
 
-    private void registerGravitySensorListener() {
-        SensorManager sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        Sensor gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        sensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_UI);
+    public void registerGravitySensorListener() {
+        if (mSensorManager != null) {
+            mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        }
+        Sensor gravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        mSensorManager.registerListener(this, gravitySensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     public void setResourceId(int id) {
@@ -83,20 +92,25 @@ public class MotionEffectBackground extends FrameLayout implements SensorEventLi
     }
 
     private void startImageOffsetAnimation(double roll, double pitch) {
-        if (Math.abs(roll) > Math.abs(pitch)) {
-            mImageView.setTranslationX(calculateOffset(roll) - mImageView.getTranslationX());
-        } else {
-            mImageView.setTranslationY(calculateOffset(pitch) - mImageView.getTranslationY());
-        }
+        float offsetX = calculateOffset(roll);
+        mImageView.setTranslationX(offsetX -  mMovedOffsetX);
+        Log.d("MOVE-X", (offsetX -  mMovedOffsetX) + "");
+        mMovedOffsetX = offsetX;
+
+        float offsetY = calculateOffset(pitch);
+        mImageView.setTranslationY(offsetY - mMovedOffsetY);
+        Log.d("MOVE-Y", (offsetY -  mMovedOffsetY) + "");
+        mMovedOffsetY = offsetY;
     }
 
     private float calculateOffset(double angle) {
-        float offset = (float) (angle / 10 + 2);
-        if (offset > 20) {
-            offset = 20;
-        } else if (offset < -20) {
-            offset = -20;
+        if (angle > 45) {
+            angle = 45;
+        } else if (angle < -45) {
+            angle = -45;
         }
+
+        float offset = (float) (angle / 45 * mMaxOffset) * (-12f);
 
         Log.d("OFFSET", offset + "");
         return offset;
